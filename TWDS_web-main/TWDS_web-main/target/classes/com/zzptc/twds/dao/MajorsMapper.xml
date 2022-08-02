@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzptc.twds.dao.MajorsMapper" >
+  <resultMap id="BaseResultMap" type="com.zzptc.twds.pojo.Majors" >
+    <id column="mId" property="mid" jdbcType="INTEGER" />
+    <result column="mName" property="mname" jdbcType="VARCHAR" />
+    <result column="c_id" property="cId" jdbcType="INTEGER" />
+      <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+   <sql id="Base_Column_List" >
+    mId, mName, c_id,state
+  </sql>
+
+  <update id="updateByPrimaryKey" parameterType="com.zzptc.twds.pojo.Majors" >
+    update majors
+    set mName = #{mname,jdbcType=VARCHAR},
+      c_id = #{cId,jdbcType=INTEGER}
+    where mId = #{mid,jdbcType=INTEGER}
+  </update>
+  
+  
+  <insert id="insertSelective" parameterType="com.zzptc.twds.pojo.Majors" >
+    insert into majors
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mid != null" >
+        mId,
+      </if>
+      <if test="mname != null" >
+        mName,
+      </if>
+      <if test="cId != null" >
+        c_id,
+      </if>
+        <if test="state != null" >
+            state,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mid != null" >
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="mname != null" >
+        #{mname,jdbcType=VARCHAR},
+      </if>
+      <if test="cId != null" >
+        #{cId,jdbcType=INTEGER},
+      </if>
+        <if test="state != null" >
+            #{state,jdbcType=INTEGER},
+        </if>
+    </trim>
+  </insert>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select * from majors where state=0;
+  </select>
+  <select id="selectAllById" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+  	select * from majors where state=0 and c_id = #{cId,jdbcType=INTEGER};
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update majors set state=1
+    where mId = #{mid,jdbcType=INTEGER}
+  </update>
+ 
+  
+</mapper>
